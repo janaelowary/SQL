@@ -1,0 +1,21 @@
+-- Create a grocery store database
+
+create table items (id integer primary key, name text, quantity integer, price integer);
+insert into items values (1, "apples", 100, 0.99); 
+insert into items values (2, "bananas", 500, 0.99);
+insert into items values (3, "tomatoes", 200, 0.99);
+insert into items values (4, "cucumbers", 100, 1.99);
+insert into items values (5, "lettuce", 50, 2.99);
+insert into items values (6, "watermelon", 20, 5.99);
+insert into items values (7, "strawberries", 500, 4.99);
+insert into items values (8, "blueberries", 500, 4.99);
+insert into items values (9, "white onions", 200, 1.99);
+insert into items values (10, "green onions", 100, 1.99);
+insert into items values (11, "ground beef", 100, 8.99);
+insert into items values (12, "mozzarella cheese", 100, 3.99);
+insert into items values (13, "almond milk", 100, 2.99);
+insert into items values (14, "coffee beans", 100, 5.99);
+insert into items values (15, "tortillas", 100, 3.99);
+
+--Display the store database sorted by price
+select * from items order by price
