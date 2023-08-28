@@ -1,0 +1,56 @@
+create table actors (id integer primary key, name text, age integer);
+
+insert into actors values 
+    (1, "Scarlett Johansen", 38), 
+    (2, "Robert Downey Jr.", 58), 
+    (3, "Ryan Reynolds", 46), 
+    (4, "Blake Lively", 36),
+    (5, "Ben Affleck", 51),
+    (6, "Jennifer Lopez", 54),
+    (7, "Samuel L. Jackson", 74),
+    (8, "Zoe Saldana", 45),
+    (9, "Chris Pratt", 44),
+    (10, "Brad Pitt", 59);
+    
+create table spouses (id integer primary key, name text, spouse_id integer);
+insert into spouses values
+    (1, "Colin Jost", 1),
+    (2, "Susan Downey Jr.", 2),
+    (3, "Blake Lively", 4),
+    (4,  "Ryan Reynolds", 3),
+    (5, "Jennifer Lopez", 6),
+    (6, "Ben Affleck", 5),
+    (7, "LaTanya Richardson Jackson", 7),
+    (8, "Marco Perego Saldana", 8),
+    (9, "Katherine Schwarzenegger", 9);
+
+create table top_box_office (id integer primary key, name text, title text);
+insert into top_box_office values
+    (1, "Scarlett Johansen", "Avengers: Endgame"),
+    (2, "Robert Downey Jr.", "Avengers: Endgame"),
+    (3, "Ryan Reynolds", "Deadpool"),
+    (4, "Blake Lively", "The Age of Adaline"),
+    (5, "Ben Affleck", "Batman v Superman: Dawn of Justice"),
+    (6, "Jennifer Lopez", "Home"),
+    (7, "Samuel L. Jackson", "Avengers: Endgame"),
+    (8, "Zoe Saldana", "Avatar: The Way of Water"),
+    (9, "Chris Pratt", "Avengers: Endgame"),
+    (10, "Brad Pitt", "World War Z");
+
+--Who are these top actors/actresses spouses?
+select actors.name as actor, spouses.name as spouse
+from actors
+join spouses
+on actors.id=spouses.id; 
+
+--Who out of these top actors are married to each other?
+select actors.name as actor, spouses.name as spouse
+from actors
+join spouses
+on actors.id=spouses.spouse_id where actors.name=spouses.name;
+
+--Did any of these top actors star with each other? If so, who?
+select top_box_office.name, top_box_office.title, costars.name as costar
+from top_box_office
+join top_box_office costars
+on top_box_office.title=costars.title where top_box_office.name != costars.name;
