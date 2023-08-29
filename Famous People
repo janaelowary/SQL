@@ -1,5 +1,4 @@
 create table actors (id integer primary key, name text, age integer);
-
 insert into actors values 
     (1, "Scarlett Johansen", 38), 
     (2, "Robert Downey Jr.", 58), 
