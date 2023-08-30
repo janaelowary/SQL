@@ -1,0 +1,65 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table and explored the data using the following SQL. 
+
+#1. What are the 10 most popular tracks?
+select artist_name, popularity, track_name
+from spotifydata
+order by popularity desc
+limit 10;
+
+#2. Which artists had multiple (2 or greater) tracks in the top 50?
+select artist_name, count(track_name)
+from spotifydata
+group by artist_name
+having count(track_name)>=2
+order by count(track_name) desc;
+
+#3. What is the average danceability for each artist? 
+select artist_name, avg(danceability)
+from spotifydata
+group by artist_name
+order by avg(danceability) desc;
+
+#4. Who are the top 10 artists based on popularity?
+select artist_name, popularity
+from spotifydata
+group by artist_name
+order by popularity desc
+limit 10;
+
+#5. What artist released the longest song?
+select artist_name, duration_ms, track_name
+from spotifydata 
+group by artist_name
+order by duration_ms desc
+limit 1;
+
+#6. What's the average danceability for the 10 most popular songs?
+select avg(danceability)
+from spotifydata
+where id between 1 and 10;
