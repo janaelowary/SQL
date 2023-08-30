@@ -1,0 +1,103 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
+#1. Show Customers (their full names, customer ID, and country) who are not in the US.
+select firstname, lastname, customerid, country
+from customers
+where country <> 'USA';
+
+#2. Show only the Customers from Brazil.
+select firstname, lastname, country
+from customers
+where country='Brazil';
+
+#3. Find the Invoices of customers who are from Brazil. 
+select * 
+from invoices 
+where billingcountry='Brazil';
+
+#4. Show the Employees who are Sales Agents.
+select *
+from employees
+where title like '%Sales%Agent%';
+
+#5. Find a unique/distinct list of billing countries from the Invoice table.
+select distinct billingcountry
+from invoices;
+
+#6. Provide a query that shows the invoices associated with each sales agent.
+select emp.lastname, emp.firstname, inv.invoiceid
+from employees emp
+join customers cust on emp.employeeid=cust.supportrepid
+join invoices inv on inv.customerid=cust.customerid;
+
+#7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+select cust.firstname, cust.lastname, cust.country, 
+emp.lastname as emplastname, emp.firstname as empfirstname,
+inv.total
+from employees emp
+join customers cust on emp.employeeid=cust.supportrepid
+join invoices inv on cust.customerid=inv.invoiceid;
+
+#8. How many Invoices were there in 2009?
+select count(*)
+from invoices
+where invoicedate between '2009-01-01' and '2009-12-31';
+
+#9. What are the total sales for 2009?
+select sum(total)
+from invoices
+where invoicedate between '2009-01-01' and '2009-12-31';
+
+#10. Write a query that includes the purchased track name with each invoice line ID.
+select t.name, i.invoicelineid
+from invoice_items i
+join tracks t
+on t.trackid=i.trackid;
+
+#11. Write a query that includes the purchased track name AND artist name with each invoice line ID.
+select ar.name as Artist, t.Name as Track, i.InvoiceLineId
+from chinook.Invoice_items i
+join chinook.tracks t 
+on i.TrackID=t.TrackID
+inner join chinook.albums a
+on a.AlbumID=t.AlbumID
+join chinook.artists ar
+on ar.ArtistID=a.ArtistID;
+
+#12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+select t.name as 'Track Name', 
+a.title as 'Album Title', 
+m.name as 'Media Type',
+g.name as 'Genre'
+from tracks t
+join albums a
+on t.albumid=a.albumid
+join media_types m
+on m.mediatypeid=t.mediatypeid
+join genres g
+on g.genreid=t.genreid;
+
+#13. Show the total sales made by each sales agent.
+select e.lastname, e.firstname, round(sum(i.total)) as 'Total Sales'
+from customers c
+join employees e
+on c.supportrepid=e.employeeid
+join invoices i
+on i.customerid=c.customerid
+join invoice_items ii
+on ii.invoiceid=i.invoiceid
+where e.title='Sales Support Agent'
+group by e.lastname;
+
+#14. Which sales agent made the most dollars in sales in 2009?
+select e.lastname, e.firstname, round(sum(i.total)) as 'Total Sales'
+from customers c
+join employees e
+on c.supportrepid=e.employeeid
+join invoices i
+on i.customerid=c.customerid
+join invoice_items ii
+on ii.invoiceid=i.invoiceid
+where e.title='Sales Support Agent'
+group by e.lastname
+order by 'Total Sales' desc;
