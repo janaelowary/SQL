@@ -63,3 +63,17 @@ limit 1;
 select avg(danceability)
 from spotifydata
 where id between 1 and 10;
+
+#7. Artists with popularity over 90% will be considered 'Top Stars'. 
+Find what artists have an average popularity over 90%
+with popularity_average_CTE as (
+select s.artist_name, 
+avg(s.popularity) as average_popularity
+from spotifydata s
+group by s.artist_name
+)
+select artist_name, 
+average_popularity, 
+'Top Star' as tag
+from popularity_Average_CTE
+where average_popularity>=90;
